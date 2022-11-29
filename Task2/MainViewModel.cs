@@ -20,6 +20,7 @@ namespace ArcFaceWPF
         private string folderPath;
         private List<Image<Rgb24>> images;
         private string[] imagesPaths;
+        private bool isStartAvailable = true;
         private float[,] similarities;
         private int totalProgress;
 
@@ -77,6 +78,16 @@ namespace ArcFaceWPF
             }
         }
 
+        public bool IsStartAvailable
+        {
+            get => isStartAvailable;
+            set
+            {
+                isStartAvailable = value;
+                OnPropertyChanged();
+            }
+        }
+
         public float[,] Similarities
         {
             get => similarities;
@@ -130,6 +141,11 @@ namespace ArcFaceWPF
 
         public async Task Start()
         {
+            IsStartAvailable = false;
+            Distances = null;
+            Similarities = null;
+            CurrentProgress = 0;
+
             try
             {
                 GetImages();
@@ -149,7 +165,7 @@ namespace ArcFaceWPF
                             var emb2 = await arcFaceComponent.GetEmbeddings(images[j], cancellationToken);
 
                             var distance = arcFaceComponent.Distance(emb1, emb2);
-                            var similarity = arcFaceComponent.Similarity(emb1, emb2);
+                            var similarity = ArcFaceComponent.Similarity(emb1, emb2);
 
                             distances[i, j] = distance;
                             similarities[i, j] = similarity;
@@ -165,6 +181,10 @@ namespace ArcFaceWPF
             catch (OperationCanceledException)
             {
                 Trace.WriteLine("Operation was cancelled");
+            }
+            finally
+            {
+                IsStartAvailable = true;
             }
         }
 

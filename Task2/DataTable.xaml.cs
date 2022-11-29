@@ -49,6 +49,23 @@ namespace ArcFaceWPF
             images.Clear();
         }
 
+        public void ClearLabels()
+        {
+            var itemsToRemove = new List<object>();
+            foreach (var item in table.Children)
+            {
+                if (item is Label)
+                {
+                    itemsToRemove.Add(item);
+                }
+            }
+
+            foreach (var itemToRemove in itemsToRemove)
+            {
+                table.Children.Remove((UIElement)itemToRemove);
+            }
+        }
+
         private void AddUnitGrid()
         {
             table.RowDefinitions.Add(new RowDefinition()
@@ -77,6 +94,7 @@ namespace ArcFaceWPF
         {
             if(d is DataTable dataTable && e.NewValue != null)
             {
+                dataTable.Clear();
                 dataTable.DrawGrid();
             }
         }

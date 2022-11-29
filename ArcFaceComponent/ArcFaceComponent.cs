@@ -150,10 +150,10 @@ namespace ArcFaceComponentNuget
             }, token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
         }
 
-        private float Length(float[] v) => (float)Math.Sqrt(v.Select(x => x * x).Sum());
+        private static float Length(float[] v) => (float)Math.Sqrt(v.Select(x => x * x).Sum());
 
         private float[] Normalize(float[] vectors) => vectors.Select(x => x / Length(vectors)).ToArray();
 
-        public float Similarity(float[] firstVector, float[] secondVector) => firstVector.Zip(secondVector).Select(p => p.First * p.Second).Sum();
+        public static float Similarity(float[] firstVector, float[] secondVector) => firstVector.Zip(secondVector).Select(p => p.First * p.Second).Sum();
     }
 }

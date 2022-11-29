@@ -23,6 +23,7 @@ namespace ArcFaceWPF
 
             if (dlg.ShowDialog() == true)
             {
+                ClearButtonClick(null, null);
                 MainViewModel.FolderPath = dlg.SelectedPath;
             }
         }
@@ -41,6 +42,7 @@ namespace ArcFaceWPF
                 return;
             }
 
+            DataTable.ClearLabels();
             await MainViewModel.Start();
         }
 
