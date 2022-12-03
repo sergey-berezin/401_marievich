@@ -164,7 +164,7 @@ namespace ArcFaceWPF
                             var emb1 = await arcFaceComponent.GetEmbeddings(images[i], cancellationToken);
                             var emb2 = await arcFaceComponent.GetEmbeddings(images[j], cancellationToken);
 
-                            var distance = arcFaceComponent.Distance(emb1, emb2);
+                            var distance = ArcFaceComponent.Distance(emb1, emb2);
                             var similarity = ArcFaceComponent.Similarity(emb1, emb2);
 
                             distances[i, j] = distance;

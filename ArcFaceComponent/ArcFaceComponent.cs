@@ -99,7 +99,7 @@ namespace ArcFaceComponentNuget
             }
         }
 
-        private DenseTensor<float> ImageToTensor(Image<Rgb24> image)
+        private static DenseTensor<float> ImageToTensor(Image<Rgb24> image)
         {
             ArgumentNullException.ThrowIfNull(image);
 
@@ -122,7 +122,7 @@ namespace ArcFaceComponentNuget
             return tensor;
         }
 
-        private void CheckToken(CancellationToken token)
+        private static void CheckToken(CancellationToken token)
         {
             if (token.IsCancellationRequested)
             {
@@ -130,7 +130,7 @@ namespace ArcFaceComponentNuget
             }
         }
 
-        public float Distance(float[] v1, float[] v2) => Length(v1.Zip(v2).Select(p => p.First - p.Second).ToArray());
+        public static float Distance(float[] v1, float[] v2) => Length(v1.Zip(v2).Select(p => p.First - p.Second).ToArray());
 
         public async Task<float[]> GetEmbeddings(Image<Rgb24> image, CancellationToken token)
         {
@@ -152,7 +152,7 @@ namespace ArcFaceComponentNuget
 
         private static float Length(float[] v) => (float)Math.Sqrt(v.Select(x => x * x).Sum());
 
-        private float[] Normalize(float[] vectors) => vectors.Select(x => x / Length(vectors)).ToArray();
+        private static float[] Normalize(float[] vectors) => vectors.Select(x => x / Length(vectors)).ToArray();
 
         public static float Similarity(float[] firstVector, float[] secondVector) => firstVector.Zip(secondVector).Select(p => p.First * p.Second).Sum();
     }
