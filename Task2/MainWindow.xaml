@@ -10,51 +10,118 @@
         Width="800"
         ResizeMode="NoResize"
         >
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+    <TabControl>
+        <TabItem Header="Main">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-        <StackPanel x:Name="buttons"
-              Grid.Column="0"
-              VerticalAlignment="Stretch" 
-              HorizontalAlignment="Stretch"
-              Background="LightSlateGray">
+                <StackPanel x:Name="buttons"
+                   Grid.Column="0"
+                   VerticalAlignment="Stretch" 
+                   HorizontalAlignment="Stretch"
+                   Background="LightSlateGray">
 
-            <Button Click="OnOpenButtonClicked"
-                    Margin="5"
-                    Content="Select folder"
+                    <Button Click="OnOpenButtonClicked"
+                      Margin="5"
+                      Content="Select folder"
                     />
-            <Button IsEnabled="{Binding IsStartAvailable}"
+                    <Button IsEnabled="{Binding IsStartAvailable}"
                     Click="StartButtonClick"
                     Content="Start"
                     Margin="5"
                     />
-            <Button
+                    <Button
                     Click="CancellButtonClick"
                     Content="Cancel"
                     Margin="5"
                     />
-            <Button Click="ClearButtonClick"
+                    <Button Click="ClearButtonClick"
                     Content="Clear"
                     Margin="5"
                     />
-            <ProgressBar x:Name="ProgressBar" 
+                    <ProgressBar x:Name="ProgressBar" 
                          Value="{Binding CurrentProgress, UpdateSourceTrigger=PropertyChanged}"
                          Minimum="0"
                          Maximum="100" 
                          Height="20"
                          Margin="5"/>
-            <TextBlock Text="{Binding ElementName=ProgressBar, Path=Value, StringFormat={}{0:0}%}"
+                    <TextBlock Text="{Binding ElementName=ProgressBar, Path=Value, StringFormat={}{0:0}%}"
                        HorizontalAlignment="Center" VerticalAlignment="Center"
                        Margin="10,0,10,0"/>
-        </StackPanel>
+                </StackPanel>
 
-        <local:DataTable x:Name="DataTable"
+                <local:DataTable x:Name="DataTable"
                          Grid.Column="1"
                          Distances="{Binding Distances, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                          ImagesPaths="{Binding ImagesPaths, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                          Similarities="{Binding Similarities, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"/>
-    </Grid>
+            </Grid>
+        </TabItem>
+        <TabItem Header="DataBase">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel
+                   Grid.Column="0"
+                   VerticalAlignment="Stretch" 
+                   HorizontalAlignment="Stretch"
+                   Background="LightSlateGray">
+
+                    <Button
+                        Click="RemoveFromDb"
+                        Content="Remove"
+                        Margin="5"
+                    >
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SelectedImageEntry}" Value="x:Null">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                    <Button Click="ClearDb"
+                    Content="Clear"
+                    Margin="5"
+                    />
+                </StackPanel>
+
+                <DataGrid Grid.Column="1"
+                          ItemsSource="{Binding ImageEntriesFromDb}"
+                          SelectedItem="{Binding SelectedImageEntry}"
+                          AutoGenerateColumns="False"
+                          HeadersVisibility="Column"
+                          IsReadOnly="True"
+                          ScrollViewer.CanContentScroll="True"
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                          ScrollViewer.VerticalScrollBarVisibility="Visible"
+                          SelectionMode="Single">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="Image"/>
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding Path}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Path" Binding="{Binding Path}"/>
+                        <DataGridTextColumn Header="Hash" Binding="{Binding Hash}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </TabItem>
+    </TabControl>
 </Window>
