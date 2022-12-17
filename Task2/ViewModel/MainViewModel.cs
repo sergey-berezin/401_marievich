@@ -217,9 +217,7 @@ namespace ArcFaceWPF
         {
             using var db = new ImagesContext();
             var imageEntryFromDb = db.Images
-                .Where(x => x.Hash == image.Hash)
-                .Include(x => x.Details)
-                .Where(x => Equals(x.Details.Data, image.Details.Data))
+                .Where(x => x.Id == image.Id)
                 .FirstOrDefault();
 
             if (imageEntryFromDb == null)
