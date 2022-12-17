@@ -255,7 +255,6 @@ namespace ArcFaceWPF
             try
             {
                 GetImages();
-                Trace.WriteLine("started ttt");
                 cancellationTokenSource.TryReset();
                 using (arcFaceComponent = new ArcFaceComponent())
                 {
