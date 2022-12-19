@@ -56,5 +56,15 @@ namespace ArcFaceWPF
             MainViewModel.Clear();
             DataTable.Clear();
         }
+
+        private void RemoveFromDb(object sender, RoutedEventArgs e)
+        {
+            MainViewModel.RemoveImageFromDataBase();
+        }
+
+        private void ClearDb(object sender, RoutedEventArgs e)
+        {
+            MainViewModel.ClearDataBase();
+        }
     }
 }
